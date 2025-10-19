@@ -15,5 +15,9 @@
     "@rbxts/types": "^1.0.886",
     "roblox-ts": "^3.0.0",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@rbxts/profile-store": "^1.0.3",
+    "@rbxts/services": "^1.6.0"
   }
 }
