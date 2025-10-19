@@ -1,0 +1,19 @@
+{
+  "name": "combatv1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rbxtsc",
+    "watch": "rbxtsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rbxts/compiler-types": "^3.0.0-types.0",
+    "@rbxts/types": "^1.0.886",
+    "roblox-ts": "^3.0.0",
+    "typescript": "^5.9.3"
+  }
+}
