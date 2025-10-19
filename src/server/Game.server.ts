@@ -4,12 +4,15 @@ const PlayerModule = require(ServerScriptService.FindFirstChild("Player") as Mod
 
 const Events = ReplicatedStorage.WaitForChild("Events") as Folder;
 const punchEvent = Events.WaitForChild("PunchEvent") as RemoteEvent;
+const hitBoxRenderEvent = Events.WaitForChild("HitBoxRenderEvent") as RemoteEvent;
 
 
 function notificationPlayers() {
 
     // TODO: FireAllClients Punch Visuals create uhmmm
     // Yeah we notify all players for create red-part render for visuals
+
+    hitBoxRenderEvent.FireAllClients();
 
 }
 

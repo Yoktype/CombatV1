@@ -42,6 +42,7 @@ function validateHit(): boolean {
 }
 
 function punch() {
+    // for don't start validate on server
     const isHitValid = validateHit();
 
     punchEvent.FireServer(isHitValid); // player in param auto
@@ -58,6 +59,6 @@ UserInputService.InputBegan.Connect((input: InputObject, gameProcessedEvent: boo
     if (gameProcessedEvent) return;
     if (input.UserInputType !== Enum.UserInputType.MouseButton1) return;
 
-
+    punch();
 })
 
