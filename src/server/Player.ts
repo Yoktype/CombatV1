@@ -15,6 +15,10 @@ type ProfileSession = typeof PLAYER_PROFILE;
 
 const Profiles = new Map<Player, Profile<ProfileSession>>();
 
+function startChangeData(player: Player) {}
+
+function giveData(player: Player) {}
+
 function loadData(player: Player) {
     const key = `user_` + `${player.UserId}`;
     const profile = PlayerStore.StartSessionAsync(key, {
@@ -54,7 +58,7 @@ function createLeaderstats(player: Player) {
 
 Players.PlayerAdded.Connect(player => {
     createLeaderstats(player);
-    
+
 
     loadData(player);
 })
