@@ -7,18 +7,30 @@ const Events = ReplicatedStorage.WaitForChild("Events") as Folder;
 const punchEvent = Events.WaitForChild("PunchEvent") as RemoteEvent;
 const hitBoxRenderEvent = Events.WaitForChild("HitBoxRenderEvent") as RemoteEvent;
 
+const ATTACK_RANGE = 5;
 
-function notificationPlayers() {
 
-    // TODO: FireAllClients Punch Visuals create uhmmm
-    // Yeah we notify all players for create red-part render for visuals
+function getPossitionRender(character: Model): CFrame | undefined {
+    const torso = (character.FindFirstChild("UpperTorso") || character.FindFirstChild("Torso")) as BasePart;
+    if (torso !== undefined) {
 
-    // ??? Visuals 
+        const pivot = torso.GetPivot();
+        const lookVector = pivot.LookVector;
+        const torsoPosition: Vector3 = torso.GetPivot().Position;
 
-    hitBoxRenderEvent.FireAllClients();
-    // Create red part on hit location for all players
-    // vector3 or Cframe hmm pos and rotation or pivot
+        const newPosition = torsoPosition.add(lookVector.mul(ATTACK_RANGE));
+        const cfRender = CFrame.lookAt(newPosition, newPosition.add(lookVector));
 
+        return cfRender; // recheck this 
+    }
+
+    return undefined
+}
+
+function notificationPlayers(character: Model) {
+    const renderPosition = getPossitionRender(character);
+
+    if (renderPosition !== undefined) hitBoxRenderEvent.FireAllClients(renderPosition);
 }
 
 function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Model): void {
@@ -57,6 +69,6 @@ punchEvent.OnServerEvent.Connect((player: Player, params) => {
 
         tryDamageOtherPlayer(player, validateHitParam.liveState, validateHitParam.character);
 
-    } else { notificationPlayers(); } // if not valid hit then only visuals
+    } else { notificationPlayers(validateHitParam.character); } // if not valid hit then only visuals
     // Yeah alr i can do it, we have a validateHitParam.character for visuals 
 })
