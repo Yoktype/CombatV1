@@ -45,6 +45,7 @@ function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Mod
         // need init to setup Attribute for new Player or add r here but
         // first punch has stun Attribute undefined
 
+        // if he has kill add this on leaderstats and profile-store
     }
 
 }
