@@ -1,4 +1,5 @@
 import { ServerScriptService, ReplicatedStorage } from "@rbxts/services";
+import { validateHit } from "shared/Utils/validateHit";
 
 const PlayerModule = require(ServerScriptService.FindFirstChild("Player") as ModuleScript);
 
@@ -16,17 +17,23 @@ function notificationPlayers() {
 
 }
 
-function handlePunch(player: Player) {
+function handlePunch(player: Player, liveState: boolean, character: Model): void {
 
-    // TODO: validate punch use raycasts and zone???
+
+    const [isValidateHit, otherCharacter] = validateHit(player, character, liveState);
+    if ( isValidateHit === true ) {
+
+    }
 
 }
 
 
 
 punchEvent.OnServerEvent.Connect((player: Player, params) => {
+    const validateHitParam = params as IValidateHit;
+    if ( validateHitParam.isHitValid === true ) {
 
-    if ( params === true ) {
+        handlePunch(player, validateHitParam.liveState, validateHitParam.character);
 
     } else { notificationPlayers(); } // if not valid hit then only visuals
 

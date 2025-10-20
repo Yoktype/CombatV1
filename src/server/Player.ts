@@ -3,7 +3,7 @@ import ProfileStore, { Profile } from "@rbxts/profile-store";
 
 const DATASTORE_NAME = "test";
 const PLAYER_PROFILE = {
-    cash: 10,
+    cash: 0,
 }
 
 const PlayerStore = ProfileStore.New(
@@ -21,7 +21,7 @@ function loadData(player: Player) {
         Cancel: () => {
             return player.Parent !== Players;
         }
-    })
+    });
 
     if (profile !== undefined) {
 
@@ -44,12 +44,18 @@ function createLeaderstats(player: Player) {
     const leaderstats = new Instance("Folder");
     leaderstats.Name = "leaderstats";
 
-
+    const kills = new Instance("IntValue");
+    kills.Name = "Kills";
+    kills.Value = 0;
     
     leaderstats.Parent = player;
+    kills.Parent = leaderstats;
 }
 
 Players.PlayerAdded.Connect(player => {
+    createLeaderstats(player);
+    
+
     loadData(player);
 })
 

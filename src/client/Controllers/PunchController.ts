@@ -1,4 +1,5 @@
 import { Players, ReplicatedStorage, UserInputService, Workspace } from "@rbxts/services";
+import { validateHit } from "shared/Utils/validateHit";
 
 const Events = ReplicatedStorage.WaitForChild("Events") as Folder;
 const punchEvent = Events.WaitForChild("PunchEvent") as RemoteEvent;
@@ -9,43 +10,18 @@ const HUMANOID = CHARACTER.FindFirstAncestorOfClass("Humanoid") as Humanoid;
 
 let liveState: boolean = true;
 
-function validateHit(): boolean {
-
-    if (liveState) {
-        
-        const characterTorso = (CHARACTER.FindFirstChild("UpperTorso") || CHARACTER.FindFirstChild("Torso")) as BasePart;
-        const direction = (CHARACTER.GetPivot().LookVector).mul(10);
-
-        const raycastParams = new RaycastParams();
-        raycastParams.FilterDescendantsInstances = [CHARACTER];
-        raycastParams.FilterType = Enum.RaycastFilterType.Include; // MAYBE ENCLUDE idk
-
-        const raycastResult = Workspace.Shapecast(
-            characterTorso,
-            direction,
-            raycastParams
-        )
-
-        if (raycastResult && raycastResult.Instance) {
-            const hitPart = raycastResult.Instance;
-            const hitCharacter = hitPart.FindFirstAncestorOfClass("Model");
-
-            if (hitCharacter) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-    
-    return false;
-}
 
 function punch() {
     // for don't start validate on server
-    const isHitValid = validateHit();
+    const [isHitValid, otherCharacter] = validateHit(LOCAL_PLAYER, CHARACTER, liveState);
 
-    punchEvent.FireServer(isHitValid); // player in param auto
+    const validateHitParam: IValidateHit = { // declared in d.ts
+        isHitValid: isHitValid,
+        liveState: liveState,
+        character: CHARACTER
+    }
+
+    punchEvent.FireServer(validateHitParam); // player in param auto
 }
 
 
