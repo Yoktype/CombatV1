@@ -50,3 +50,6 @@ UserInputService.InputBegan.Connect((input: InputObject, gameProcessedEvent: boo
         punch(); // if player not a stunned then can attack
     } 
 })
+
+
+// event for activated punch()

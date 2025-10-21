@@ -2,9 +2,6 @@
 
 New pet
 
-
-
-
 for rojo
 init.meta.json
 {
@@ -13,8 +10,19 @@ init.meta.json
 
 
 Create
+Events in ReplicatedStorage/Events {
+  PunchEvent as RemoteEvent
+  HitBoxRenderEvent as RemoteEvent
+}
 
-Events in ReplicatedStorage/Events
+/
+/
+/
+/
+/
+/
 
-PunchEvent as RemoteEvent
-HitBoxRenderEvent as RemoteEvent
+Movement system, Dash {direct(w. punch), based dash left and right}
+Ability {1, 2, 3, 4} dafult class
+Ultimate whats
+UI(react) change class
