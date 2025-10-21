@@ -42,9 +42,11 @@ HUMANOID.Died.Connect(() => {
 UserInputService.InputBegan.Connect((input: InputObject, gameProcessedEvent: boolean) => {
     if (gameProcessedEvent) return;
     if (input.UserInputType !== Enum.UserInputType.MouseButton1) return;
-    // if stun Attribute true then player can't attack
-    print(`[${LOCAL_PLAYER.Name}]: Stun Attribute - undefined, can attack`);
-    // Block from Attribute also
 
-    punch();
+    const stunnedState = LOCAL_PLAYER.GetAttribute("StunnedState");
+    print(`[${stunnedState}]: stunnedState on client`);
+
+    if ( stunnedState === false ) {
+        punch(); // if player not a stunned then can attack
+    } 
 })

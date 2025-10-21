@@ -29,32 +29,38 @@ function getPossitionRender(character: Model): CFrame | undefined {
 
 function notificationPlayers(character: Model) {
     const renderPosition = getPossitionRender(character);
-
     if (renderPosition !== undefined) hitBoxRenderEvent.FireAllClients(renderPosition);
 }
 
 function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Model): void {
-
-
     const [isValidateHit, otherCharacter] = validateHit(player, character, liveState);
-    if ( isValidateHit === true ) {
+    if ( isValidateHit === true && otherCharacter !== undefined ) { // if hit and otherCharacter
+        const humanoid = otherCharacter.FindFirstAncestorOfClass("Humanoid") as Humanoid;
+        humanoid.TakeDamage(10);
+        
+        // change attribute, player will be get stunned
 
-        // where i can get player damage value?
-        // other player take stun and damage
-        // stun - no walk and change Attribbute for sometimes
-        // need init to setup Attribute for new Player or add r here but
-        // first punch has stun Attribute undefined
+        const health = math.max(humanoid.Health, 0);
+        if ( health <= 0 ) {
+            // player, get point at "kills" of leaderstats
+            // change or create function in playerData where i will send 1 and it change value
+        }
 
-        // if he has kill add this on leaderstats and profile-store
+        return
     }
 
+    print(`error if checking`)
+    return;
 }
 
 function setupNewPlayer(player: Player) {
-    if (player.Parent === Players) { // once ummmmm we need maybe wait player
+    if (player.Parent === Players) { // if this will be not work then delete this
 
-        // Create Stun Attribute for player
+        player.SetAttribute("StunnedState", false); // init
+        print(`StunnedState initialize for [${player.Name}]`);
 
+        // here need gets value for player-damage, class(maybe i create ability and ultimate)
+        // from profile 
     }
 }
 
@@ -70,6 +76,5 @@ punchEvent.OnServerEvent.Connect((player: Player, params) => {
 
         tryDamageOtherPlayer(player, validateHitParam.liveState, validateHitParam.character);
 
-    } else { notificationPlayers(validateHitParam.character); } // if not valid hit then only visuals
-    // Yeah alr i can do it, we have a validateHitParam.character for visuals 
+    } else { notificationPlayers(validateHitParam.character); }
 })

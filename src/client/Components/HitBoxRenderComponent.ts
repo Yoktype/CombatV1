@@ -1,4 +1,4 @@
-import { ReplicatedStorage, Workspace } from "@rbxts/services";
+import { ReplicatedStorage, TweenService, Workspace } from "@rbxts/services";
 
 
 const Events = ReplicatedStorage.WaitForChild("Events") as Folder;
@@ -7,12 +7,21 @@ const hitBoxRenderEvent = Events.WaitForChild("HitBoxRenderEvent") as RemoteEven
 
 function destroyHitboxRender(render: BasePart): void {
 
-    // tweenservice for smoth transparansy and destory
+    
+    const tweenInfo = new TweenInfo(2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, 0, false, 0)
+    const propertyTable = {
+        Transparency: 1,
+    }
+
+    const tweenCreate = TweenService.Create(render, tweenInfo, propertyTable);
+    tweenCreate.Play(); // instand start tween
+
+    tweenCreate.Completed.Connect(() => {
+        render.Destroy(); // I don't want to use ObjectPool, because this used in local
+    })
 }
 
 function spawnHitboxRender(position: CFrame): void {
-
-    // for what i get player
     const render = new Instance("Part");
     render.Parent = Workspace; // local player spawn only for player
     render.PivotTo(position);
@@ -22,7 +31,7 @@ function spawnHitboxRender(position: CFrame): void {
     render.Color = Color3.fromRGB(255, 0, 0);
 
     task.delay(3, () => {
-        // change this function on destroyHitboxRender
+        destroyHitboxRender(render); // instand start delete
     })
 }
 
