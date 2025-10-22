@@ -38,7 +38,12 @@ function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Mod
         const humanoid = otherCharacter.FindFirstAncestorOfClass("Humanoid") as Humanoid;
         humanoid.TakeDamage(10);
         
-        // change attribute, player will be get stunned
+        const otherPlayer = Players.GetPlayerFromCharacter(otherCharacter);
+        otherPlayer?.SetAttribute("StunnedState", true);
+
+        task.delay(2.7, () => {
+            otherPlayer?.SetAttribute("StunnedState", false);
+        })
 
         const health = math.max(humanoid.Health, 0);
         if ( health <= 0 ) {

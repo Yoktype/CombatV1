@@ -4,13 +4,13 @@ import { validateHit } from "shared/Utils/validateHit";
 const Events = ReplicatedStorage.WaitForChild("Events") as Folder;
 const punchEvent = Events.WaitForChild("PunchEvent") as RemoteEvent;
 
+// maybe create module for constants, this is based constants
 const LOCAL_PLAYER = Players.LocalPlayer as Player;
 const CHARACTER = LOCAL_PLAYER.Character || LOCAL_PLAYER.CharacterAdded.Wait()[0] as Model;
 const HUMANOID = CHARACTER.FindFirstAncestorOfClass("Humanoid") as Humanoid;
 const ANIMATOR = HUMANOID.FindFirstChildOfClass("Animator") as Animator;
 
-const PUCH_ANIMATION = "rbxassetid://13722448613"; // what the id? ahahah
-// WE NEED TEST THIS ANIMATION ID
+const PUCH_ANIMATION = "rbxassetid://13722448613"; // unknowns id
 
 let liveState: boolean = true;
 
@@ -20,19 +20,18 @@ function punch(): void {
     const animation = HUMANOID.FindFirstAncestorOfClass("Animation") || new Instance("Animation") as Animation;
     animation.Parent = HUMANOID; // Create at local for player OMG
     animation.AnimationId = PUCH_ANIMATION; // idk btw whats the animation here
-
-    // activated animation punch here
     ANIMATOR.LoadAnimation(animation)
 
     const [isHitValid, otherCharacter] = validateHit(LOCAL_PLAYER, CHARACTER, liveState);
 
-    const validateHitParam: IValidateHit = { // declared in d.ts
+    // type from declarated file: [fileName.d.ts]
+    const validateHitParam: IValidateHit = {
         isHitValid: isHitValid,
         liveState: liveState,
         character: CHARACTER
     }
 
-    punchEvent.FireServer(validateHitParam); // player in param auto
+    punchEvent.FireServer(validateHitParam); // player based first param
 }
 
 
@@ -46,11 +45,12 @@ UserInputService.InputBegan.Connect((input: InputObject, gameProcessedEvent: boo
     if (gameProcessedEvent) return;
     if (input.UserInputType !== Enum.UserInputType.MouseButton1) return;
 
+    // fast check StunnedState on client
     const stunnedState = LOCAL_PLAYER.GetAttribute("StunnedState");
     print(`[${stunnedState}]: stunnedState on client`);
 
     if ( stunnedState === false ) {
-        punch(); // if player not a stunned then can attack
+        punch(); // if player not a stunned then attack
     } 
 })
 
