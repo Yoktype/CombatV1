@@ -19,12 +19,13 @@ local function destroyHitboxRender(render)
 end
 local function spawnHitboxRender(position)
 	local render = Instance.new("Part")
-	render.Parent = Workspace
-	render:PivotTo(position)
 	render.Name = "HitboxRender"
+	render.Parent = Workspace
+	render.Size = Vector3.new(4, 10, 4)
 	render.Anchored = true
 	render.CanCollide = false
 	render.Color = Color3.fromRGB(255, 0, 0)
+	render:PivotTo(position)
 	task.delay(3, function()
 		destroyHitboxRender(render)
 	end)

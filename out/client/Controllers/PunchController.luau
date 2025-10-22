@@ -15,8 +15,11 @@ local PUCH_ANIMATION = "rbxassetid://13722448613"
 -- WE NEED TEST THIS ANIMATION ID
 local liveState = true
 local function punch()
+	local animation = HUMANOID:FindFirstAncestorOfClass("Animation") or Instance.new("Animation")
+	animation.Parent = HUMANOID
+	animation.AnimationId = PUCH_ANIMATION
 	-- activated animation punch here
-	-- for don't start validate on server if false
+	ANIMATOR:LoadAnimation(animation)
 	local _binding = validateHit(LOCAL_PLAYER, CHARACTER, liveState)
 	local isHitValid = _binding[1]
 	local otherCharacter = _binding[2]
@@ -45,5 +48,5 @@ UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
 		punch()
 	end
 end)
--- event for activated punch()
+-- event for activated punch() while player is in a dashing then we call punchw delay
 return nil

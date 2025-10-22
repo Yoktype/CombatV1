@@ -15,12 +15,15 @@ const PUCH_ANIMATION = "rbxassetid://13722448613"; // what the id? ahahah
 let liveState: boolean = true;
 
 
-function punch() {
+function punch(): void {
+
+    const animation = HUMANOID.FindFirstAncestorOfClass("Animation") || new Instance("Animation") as Animation;
+    animation.Parent = HUMANOID; // Create at local for player OMG
+    animation.AnimationId = PUCH_ANIMATION; // idk btw whats the animation here
 
     // activated animation punch here
+    ANIMATOR.LoadAnimation(animation)
 
-
-    // for don't start validate on server if false
     const [isHitValid, otherCharacter] = validateHit(LOCAL_PLAYER, CHARACTER, liveState);
 
     const validateHitParam: IValidateHit = { // declared in d.ts
@@ -52,4 +55,4 @@ UserInputService.InputBegan.Connect((input: InputObject, gameProcessedEvent: boo
 })
 
 
-// event for activated punch()
+// event for activated punch() while player is in a dashing then we call punchw delay

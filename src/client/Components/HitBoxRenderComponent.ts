@@ -23,12 +23,13 @@ function destroyHitboxRender(render: BasePart): void {
 
 function spawnHitboxRender(position: CFrame): void {
     const render = new Instance("Part");
-    render.Parent = Workspace; // local player spawn only for player
-    render.PivotTo(position);
     render.Name = "HitboxRender";
+    render.Parent = Workspace; // local player spawn only for player
+    render.Size = new Vector3(4, 10, 4)
     render.Anchored = true;
     render.CanCollide = false;
     render.Color = Color3.fromRGB(255, 0, 0);
+    render.PivotTo(position);
 
     task.delay(3, () => {
         destroyHitboxRender(render); // instand start delete

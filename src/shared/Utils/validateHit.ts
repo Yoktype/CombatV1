@@ -22,7 +22,6 @@ export function validateHit(player: Player, character: Model, liveState: boolean
             const hitPart = raycastResult.Instance;
             const hitOtherCharacter = hitPart.Parent as Model; // as model by have to chack has humanoid
             const humanoidOtherCharacter = hitOtherCharacter?.FindFirstChildOfClass("Humanoid");
-
             if (
                 hitOtherCharacter !== character &&
                 hitOtherCharacter !== undefined && 
@@ -32,12 +31,9 @@ export function validateHit(player: Player, character: Model, liveState: boolean
                 return [true, hitOtherCharacter];
             }
         }
-
         print(`[Attack]: No hit detected`);
         return [false];
     }
-    
-    
     print(`[${player.Name}]: Has died, can't attack`);
     return [false];
 }

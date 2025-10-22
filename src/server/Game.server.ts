@@ -76,5 +76,5 @@ punchEvent.OnServerEvent.Connect((player: Player, params) => {
 
         tryDamageOtherPlayer(player, validateHitParam.liveState, validateHitParam.character);
 
-    } else { notificationPlayers(validateHitParam.character); }
+    } else { notificationPlayers(validateHitParam.character); } // BTW IF PLAYER NOT ALIVE THEN IT WILL WORK I DON't CHECK LIVESTATE
 })
