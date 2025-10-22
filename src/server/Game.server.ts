@@ -28,7 +28,7 @@ function getPossitionRender(character: Model): CFrame | undefined {
 }
 
 function notificationPlayers(character: Model) {
-    const renderPosition = getPossitionRender(character);
+    const renderPosition = getPossitionRender(character) || new CFrame();
     if (renderPosition !== undefined) hitBoxRenderEvent.FireAllClients(renderPosition);
 }
 

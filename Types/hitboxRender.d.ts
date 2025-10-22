@@ -1,5 +1,5 @@
 interface HitboxRender {
-    owner: Player,
+    owner: Model,
     
     position: CFrame,
 }

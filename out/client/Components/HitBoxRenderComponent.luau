@@ -32,8 +32,8 @@ local function spawnHitboxRender(position)
 end
 hitBoxRenderEvent.OnClientEvent:Connect(function(args)
 	local renderParams = args
-	if renderParams.owner ~= nil then
-		spawnHitboxRender(renderParams.position)
+	if renderParams ~= nil then
+		spawnHitboxRender(renderParams)
 	end
 end)
 return nil

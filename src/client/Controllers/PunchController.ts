@@ -7,8 +7,9 @@ const punchEvent = Events.WaitForChild("PunchEvent") as RemoteEvent;
 // maybe create module for constants, this is based constants
 const LOCAL_PLAYER = Players.LocalPlayer as Player;
 const CHARACTER = LOCAL_PLAYER.Character || LOCAL_PLAYER.CharacterAdded.Wait()[0] as Model;
-const HUMANOID = CHARACTER.FindFirstAncestorOfClass("Humanoid") as Humanoid;
-const ANIMATOR = HUMANOID.FindFirstChildOfClass("Animator") as Animator;
+const HUMANOID = CHARACTER.FindFirstChildOfClass("Humanoid") as Humanoid;
+const ANIMATOR = HUMANOID.WaitForChild("Animator") as Animator || new Instance("Animator") as Animator;
+ANIMATOR.Parent = HUMANOID;
 
 const PUCH_ANIMATION = "rbxassetid://13722448613"; // unknowns id
 

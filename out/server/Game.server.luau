@@ -4,7 +4,7 @@ local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts
 local ServerScriptService = _services.ServerScriptService
 local ReplicatedStorage = _services.ReplicatedStorage
 local Players = _services.Players
-local validateHit = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Utils", "validateHit").validateHit
+local validateHit = TS.import(script, game:GetService("ReplicatedStorage"), "Utils", "validateHit").validateHit
 local PlayerModule = require(ServerScriptService:FindFirstChild("Player"))
 local Events = ReplicatedStorage:WaitForChild("Events")
 local punchEvent = Events:WaitForChild("PunchEvent")
@@ -24,7 +24,7 @@ local function getPossitionRender(character)
 	return nil
 end
 local function notificationPlayers(character)
-	local renderPosition = getPossitionRender(character)
+	local renderPosition = getPossitionRender(character) or CFrame.new()
 	if renderPosition ~= nil then
 		hitBoxRenderEvent:FireAllClients(renderPosition)
 	end
@@ -36,7 +36,17 @@ local function tryDamageOtherPlayer(player, liveState, character)
 	if isValidateHit == true and otherCharacter ~= nil then
 		local humanoid = otherCharacter:FindFirstAncestorOfClass("Humanoid")
 		humanoid:TakeDamage(10)
-		-- change attribute, player will be get stunned
+		local otherPlayer = Players:GetPlayerFromCharacter(otherCharacter)
+		local _result = otherPlayer
+		if _result ~= nil then
+			_result:SetAttribute("StunnedState", true)
+		end
+		task.delay(2.7, function()
+			local _result_1 = otherPlayer
+			if _result_1 ~= nil then
+				_result_1:SetAttribute("StunnedState", false)
+			end
+		end)
 		local health = math.max(humanoid.Health, 0)
 		if health <= 0 then
 			-- player, get point at "kills" of leaderstats

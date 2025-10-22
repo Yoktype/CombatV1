@@ -8,9 +8,7 @@
 		"$className": "DataModel",
 		"ServerScriptService": {
 			"$className": "ServerScriptService",
-			"TS": {
-				"$path": "out/server"
-			}
+			"$path": "out/server"
 		},
 		"ReplicatedStorage": {
 			"$className": "ReplicatedStorage",
@@ -23,35 +21,15 @@
 					}
 				}
 			},
-			"TS": {
-				"$path": "out/shared"
-			}
+			"$path": "out/shared"
+			
 		},
 		"StarterPlayer": {
 			"$className": "StarterPlayer",
 			"StarterPlayerScripts": {
 				"$className": "StarterPlayerScripts",
-				"TS": {
-					"$path": "out/client"
-				}
-			}
-		},
-		"Workspace": {
-			"$className": "Workspace",
-			"$properties": {
-				"FilteringEnabled": true
-			}
-		},
-		"HttpService": {
-			"$className": "HttpService",
-			"$properties": {
-				"HttpEnabled": true
-			}
-		},
-		"SoundService": {
-			"$className": "SoundService",
-			"$properties": {
-				"RespectFilteringEnabled": true
+				"$path": "out/client"
+
 			}
 		}
 	}

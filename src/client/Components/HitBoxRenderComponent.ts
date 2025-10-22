@@ -36,10 +36,8 @@ function spawnHitboxRender(position: CFrame): void {
 
 
 hitBoxRenderEvent.OnClientEvent.Connect((args) => {
-    const renderParams = args as HitboxRender;
+    const renderParams = args as CFrame;
 
-    if (renderParams.owner !== undefined) {
-        spawnHitboxRender(renderParams.position);
-    }
+    if (renderParams !== undefined) spawnHitboxRender(renderParams);
 })
 

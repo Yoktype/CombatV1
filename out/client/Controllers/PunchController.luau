@@ -4,25 +4,26 @@ local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts
 local Players = _services.Players
 local ReplicatedStorage = _services.ReplicatedStorage
 local UserInputService = _services.UserInputService
-local validateHit = TS.import(script, game:GetService("ReplicatedStorage"), "TS", "Utils", "validateHit").validateHit
+local validateHit = TS.import(script, game:GetService("ReplicatedStorage"), "Utils", "validateHit").validateHit
 local Events = ReplicatedStorage:WaitForChild("Events")
 local punchEvent = Events:WaitForChild("PunchEvent")
+-- maybe create module for constants, this is based constants
 local LOCAL_PLAYER = Players.LocalPlayer
 local CHARACTER = LOCAL_PLAYER.Character or (LOCAL_PLAYER.CharacterAdded:Wait())
-local HUMANOID = CHARACTER:FindFirstAncestorOfClass("Humanoid")
-local ANIMATOR = HUMANOID:FindFirstChildOfClass("Animator")
+local HUMANOID = CHARACTER:FindFirstChildOfClass("Humanoid")
+local ANIMATOR = HUMANOID:WaitForChild("Animator") or Instance.new("Animator")
+ANIMATOR.Parent = HUMANOID
 local PUCH_ANIMATION = "rbxassetid://13722448613"
--- WE NEED TEST THIS ANIMATION ID
 local liveState = true
 local function punch()
 	local animation = HUMANOID:FindFirstAncestorOfClass("Animation") or Instance.new("Animation")
 	animation.Parent = HUMANOID
 	animation.AnimationId = PUCH_ANIMATION
-	-- activated animation punch here
 	ANIMATOR:LoadAnimation(animation)
 	local _binding = validateHit(LOCAL_PLAYER, CHARACTER, liveState)
 	local isHitValid = _binding[1]
 	local otherCharacter = _binding[2]
+	-- type from declarated file: [fileName.d.ts]
 	local validateHitParam = {
 		isHitValid = isHitValid,
 		liveState = liveState,
@@ -42,6 +43,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
 	if input.UserInputType ~= Enum.UserInputType.MouseButton1 then
 		return nil
 	end
+	-- fast check StunnedState on client
 	local stunnedState = LOCAL_PLAYER:GetAttribute("StunnedState")
 	print(`[{stunnedState}]: stunnedState on client`)
 	if stunnedState == false then

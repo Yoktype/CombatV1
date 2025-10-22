@@ -8,4 +8,4 @@ const controllers = script.Parent?.FindFirstChild("Controllers") as Folder;
 
 
 intialize(components);
-intialize(components);
+intialize(controllers);
