@@ -8,8 +8,8 @@ init.meta.json
 
 # Create
 Events in ReplicatedStorage/Events {
-  PunchEvent as RemoteEvent
-  HitBoxRenderEvent as RemoteEvent
+  [PunchEvent] as RemoteEvent;
+  [HitBoxRenderEvent] as RemoteEvent;
 }
 
 # Tasks

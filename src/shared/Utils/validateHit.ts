@@ -12,7 +12,7 @@ export function validateHit(player: Player, character: Model, liveState: boolean
 
         const raycastParams = new RaycastParams();
         raycastParams.FilterDescendantsInstances = [character];
-        raycastParams.FilterType = Enum.RaycastFilterType.Include; // Maybe need to be Exclude
+        raycastParams.FilterType = Enum.RaycastFilterType.Exclude; // Exclude - Blacklist, Include - Whitelist
 
         const raycastResult = Workspace.Shapecast(
             characterTorso,
@@ -42,3 +42,7 @@ export function validateHit(player: Player, character: Model, liveState: boolean
     print(`[${player.Name}]: Has died, can't attack`);
     return [false];
 }
+
+/*
+    use raycasting for other IF, validate, next time
+*/

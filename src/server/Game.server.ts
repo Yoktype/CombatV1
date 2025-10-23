@@ -11,12 +11,12 @@ const ATTACK_RANGE = 5;
 
 
 function getPossitionRender(character: Model): CFrame | undefined {
-    const torso = (character.FindFirstChild("UpperTorso") || character.FindFirstChild("Torso")) as BasePart;
-    if (torso !== undefined) {
+    const humanoidRootPart = character.FindFirstChild("HumanoidRootPart") as BasePart;
+    if (humanoidRootPart !== undefined) {
 
-        const pivot = torso.GetPivot();
+        const pivot = humanoidRootPart.GetPivot();
         const lookVector = pivot.LookVector;
-        const torsoPosition: Vector3 = torso.GetPivot().Position;
+        const torsoPosition: Vector3 = humanoidRootPart.GetPivot().Position;
 
         const newPosition = torsoPosition.add(lookVector.mul(ATTACK_RANGE));
         const cfRender = CFrame.lookAt(newPosition, newPosition.add(lookVector));
@@ -36,11 +36,11 @@ function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Mod
     const [isValidateHit, otherCharacter] = validateHit(player, character, liveState);
     if ( isValidateHit === true && otherCharacter !== undefined ) {
         const humanoid = otherCharacter.FindFirstChildOfClass("Humanoid") as Humanoid;
-        const otherPlayer = Players.GetPlayerFromCharacter(otherCharacter);
-        otherPlayer?.SetAttribute("StunnedState", true);
+        const otherPlayer = Players.GetPlayerFromCharacter(otherCharacter) as Player;
+        otherPlayer.SetAttribute("StunnedState", true);
         
         task.delay(2.7, () => {
-            otherPlayer?.SetAttribute("StunnedState", false);
+            otherPlayer.SetAttribute("StunnedState", false);
         })
         
         humanoid.TakeDamage(10);
@@ -58,7 +58,7 @@ function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Mod
 }
 
 function setupNewPlayer(player: Player) {
-    if (player.Parent === Players) { // if this will be not work then delete this
+    if (player.Parent === Players) {
 
         player.SetAttribute("StunnedState", false); // init
         print(`StunnedState initialize for [${player.Name}]`);
@@ -66,6 +66,7 @@ function setupNewPlayer(player: Player) {
         // here need gets value for player-damage, class(maybe i create ability and ultimate)
         // from profile 
     }
+    print(`just delete your if`);
 }
 
 
