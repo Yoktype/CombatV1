@@ -10,18 +10,17 @@ const CHARACTER = LOCAL_PLAYER.Character || LOCAL_PLAYER.CharacterAdded.Wait()[0
 const HUMANOID = CHARACTER.FindFirstChildOfClass("Humanoid") as Humanoid;
 const ANIMATOR = HUMANOID.WaitForChild("Animator") as Animator || new Instance("Animator") as Animator;
 ANIMATOR.Parent = HUMANOID;
-
-const PUCH_ANIMATION = "rbxassetid://13722448613"; // unknowns id
+const PUCH_ANIMATION = "rbxassetid://"; // unknowns id
 
 let liveState: boolean = true;
 
 
 function punch(): void {
-
-    const animation = HUMANOID.FindFirstAncestorOfClass("Animation") || new Instance("Animation") as Animation;
-    animation.Parent = HUMANOID; // Create at local for player OMG
-    animation.AnimationId = PUCH_ANIMATION; // idk btw whats the animation here
-    ANIMATOR.LoadAnimation(animation)
+// not worked w. random id =[
+    // const animation = HUMANOID.FindFirstAncestorOfClass("Animation") || new Instance("Animation") as Animation;
+    // animation.Parent = HUMANOID; // Create at local for player OMG
+    // animation.AnimationId = PUCH_ANIMATION; // idk btw whats the animation here
+    // ANIMATOR.LoadAnimation(animation)
 
     const [isHitValid, otherCharacter] = validateHit(LOCAL_PLAYER, CHARACTER, liveState);
 
@@ -32,7 +31,7 @@ function punch(): void {
         character: CHARACTER
     }
 
-    punchEvent.FireServer(validateHitParam); // player based first param
+    punchEvent.FireServer(validateHitParam);
 }
 
 
@@ -46,7 +45,6 @@ UserInputService.InputBegan.Connect((input: InputObject, gameProcessedEvent: boo
     if (gameProcessedEvent) return;
     if (input.UserInputType !== Enum.UserInputType.MouseButton1) return;
 
-    // fast check StunnedState on client
     const stunnedState = LOCAL_PLAYER.GetAttribute("StunnedState");
     print(`[${stunnedState}]: stunnedState on client`);
 

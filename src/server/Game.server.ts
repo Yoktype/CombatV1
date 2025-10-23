@@ -34,17 +34,16 @@ function notificationPlayers(character: Model) {
 
 function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Model): void {
     const [isValidateHit, otherCharacter] = validateHit(player, character, liveState);
-    if ( isValidateHit === true && otherCharacter !== undefined ) { // if hit and otherCharacter
-        const humanoid = otherCharacter.FindFirstAncestorOfClass("Humanoid") as Humanoid;
-        humanoid.TakeDamage(10);
-        
+    if ( isValidateHit === true && otherCharacter !== undefined ) {
+        const humanoid = otherCharacter.FindFirstChildOfClass("Humanoid") as Humanoid;
         const otherPlayer = Players.GetPlayerFromCharacter(otherCharacter);
         otherPlayer?.SetAttribute("StunnedState", true);
-
+        
         task.delay(2.7, () => {
             otherPlayer?.SetAttribute("StunnedState", false);
         })
-
+        
+        humanoid.TakeDamage(10);
         const health = math.max(humanoid.Health, 0);
         if ( health <= 0 ) {
             // player, get point at "kills" of leaderstats
@@ -70,16 +69,21 @@ function setupNewPlayer(player: Player) {
 }
 
 
+// Setup new player
 Players.PlayerAdded.Connect(player => {
-    // Setup new player
     setupNewPlayer(player);
 })
 
 punchEvent.OnServerEvent.Connect((player: Player, params) => {
     const validateHitParam = params as IValidateHit; // from d.ts
+
+    print(validateHitParam);
     if ( validateHitParam.isHitValid === true ) {
 
+        print(`Validate === true damnnnnnnnnnn`)
+
         tryDamageOtherPlayer(player, validateHitParam.liveState, validateHitParam.character);
+        notificationPlayers(validateHitParam.character);
 
     } else { notificationPlayers(validateHitParam.character); } // BTW IF PLAYER NOT ALIVE THEN IT WILL WORK I DON't CHECK LIVESTATE
 })
