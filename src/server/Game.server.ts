@@ -7,8 +7,10 @@ const Events = ReplicatedStorage.WaitForChild("Events") as Folder;
 const punchEvent = Events.WaitForChild("PunchEvent") as RemoteEvent;
 const hitBoxRenderEvent = Events.WaitForChild("HitBoxRenderEvent") as RemoteEvent;
 
-const STUN_TIME = 1.5;
-const ATTACK_RANGE = 5;
+// default values, i will gets from table maybe or player class and change
+let PLAYER_DAMAGE = 10;
+let ATTACK_RANGE = 5;
+let STUN_TIME = 1.5;
 
 
 function getPossitionRender(character: Model): CFrame | undefined {
@@ -29,6 +31,11 @@ function getPossitionRender(character: Model): CFrame | undefined {
 }
 
 function notificationPlayers(character: Model) {
+    // i want spawned 3-renders waits(.3)
+    // maybe i do it
+    // let i: number = 0
+    // for (i; i < 3; i += 1) {}
+
     const renderPosition = getPossitionRender(character) || new CFrame();
     if (renderPosition !== undefined) hitBoxRenderEvent.FireAllClients(renderPosition);
 }
@@ -55,14 +62,14 @@ function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Mod
             otherCharacter.SetAttribute("StunnedState", false);
         })
         
-        humanoid.TakeDamage(10);
+        humanoid.TakeDamage(PLAYER_DAMAGE);
         const health = math.max(humanoid.Health, 0);
         if ( health <= 0 ) {
             // player, get point at "kills" of leaderstats
             // change or create function in playerData where i will send 1 and it change value
         }
 
-        print(`[Attack]: true`);
+        print(`[Attack]: validate`);
         return
     }
 
@@ -73,7 +80,6 @@ function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Mod
 function setupNewPlayer(player: Player, character: Model) {
 
     character.SetAttribute("StunnedState", false);
-    print(`StunnedState initialize for [${player.Name}]`);
 
     // here need gets value for player-damage, class(maybe i create ability and ultimate)
     // from profile 

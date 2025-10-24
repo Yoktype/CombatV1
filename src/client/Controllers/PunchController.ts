@@ -46,8 +46,6 @@ UserInputService.InputBegan.Connect((input: InputObject, gameProcessedEvent: boo
     if (input.UserInputType !== Enum.UserInputType.MouseButton1) return;
 
     const stunnedState = CHARACTER.GetAttribute("StunnedState");
-    print(`[${stunnedState}]: stunnedState on client`);
-
     if ( stunnedState === false ) {
         punch(); // if player not a stunned then attack
     } 

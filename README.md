@@ -1,20 +1,18 @@
 # CombatV1
 
-for rojo
 init.meta.json
 {
   "ignoreUnknownInstances": true
 }
 
 # Create
-Events in ReplicatedStorage/Events {
+Events in ReplicatedStorage/Events 
   - [PunchEvent] as RemoteEvent;
   - [HitBoxRenderEvent] as RemoteEvent;
-}
 
 # Tasks
- - [X] Punch single system
- - [] Movement system, Dash {direct(w. punch), based dash left and right}
- - [] Ability {1, 2, 3, 4} dafult class
- - [] Ultimate whats
- - [] UI(react) change class
+ - [X] Punch, damage, renderHitbox
+ - [] Movement system
+ - [] Ability {1, 2, 3, 4}
+ - [] Ultimate
+ - [] UI(react)

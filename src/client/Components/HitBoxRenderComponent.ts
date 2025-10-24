@@ -19,14 +19,14 @@ function destroyHitboxRender(render: BasePart): void {
     })
 }
 
-function spawnHitboxRender(position: CFrame): void {
+function hitboxRendering(position: CFrame): void {
     const render = new Instance("Part");
+    render.CanCollide = false;
+    render.Anchored = true;
+    render.Size = new Vector3(4, 10, 4);
+    render.Color = Color3.fromRGB(255, 0, 0);
     render.Name = "HitboxRender";
     render.Parent = Workspace; // local player spawn only for player
-    render.Size = new Vector3(4, 10, 4)
-    render.Anchored = true;
-    render.CanCollide = false;
-    render.Color = Color3.fromRGB(255, 0, 0);
     render.PivotTo(position);
 
     task.delay(3, () => {
@@ -38,6 +38,7 @@ function spawnHitboxRender(position: CFrame): void {
 hitBoxRenderEvent.OnClientEvent.Connect((args) => {
     const renderParams = args as CFrame;
 
-    if (renderParams !== undefined) spawnHitboxRender(renderParams);
+    if (renderParams !== undefined) hitboxRendering(renderParams);
+    
 })
 

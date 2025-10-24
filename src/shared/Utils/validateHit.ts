@@ -35,11 +35,9 @@ export function validateHit(player: Player, character: Model, liveState: boolean
             }
         }
 
-        print(`[${raycastResult?.Instance}], ray result instance`);
-        print(`[Attack]: No hit detected`);
         return [false];
     }
-    print(`[${player.Name}]: Has died, can't attack`);
+    
     return [false];
 }
 
