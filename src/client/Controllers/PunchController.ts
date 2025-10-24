@@ -45,7 +45,7 @@ UserInputService.InputBegan.Connect((input: InputObject, gameProcessedEvent: boo
     if (gameProcessedEvent) return;
     if (input.UserInputType !== Enum.UserInputType.MouseButton1) return;
 
-    const stunnedState = LOCAL_PLAYER.GetAttribute("StunnedState");
+    const stunnedState = CHARACTER.GetAttribute("StunnedState");
     print(`[${stunnedState}]: stunnedState on client`);
 
     if ( stunnedState === false ) {

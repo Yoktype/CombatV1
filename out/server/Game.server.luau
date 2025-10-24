@@ -11,11 +11,11 @@ local punchEvent = Events:WaitForChild("PunchEvent")
 local hitBoxRenderEvent = Events:WaitForChild("HitBoxRenderEvent")
 local ATTACK_RANGE = 5
 local function getPossitionRender(character)
-	local torso = (character:FindFirstChild("UpperTorso") or character:FindFirstChild("Torso"))
-	if torso ~= nil then
-		local pivot = torso:GetPivot()
+	local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+	if humanoidRootPart ~= nil then
+		local pivot = humanoidRootPart:GetPivot()
 		local lookVector = pivot.LookVector
-		local torsoPosition = torso:GetPivot().Position
+		local torsoPosition = humanoidRootPart:GetPivot().Position
 		local _arg0 = lookVector * ATTACK_RANGE
 		local newPosition = torsoPosition + _arg0
 		local cfRender = CFrame.lookAt(newPosition, newPosition + lookVector)
@@ -34,19 +34,13 @@ local function tryDamageOtherPlayer(player, liveState, character)
 	local isValidateHit = _binding[1]
 	local otherCharacter = _binding[2]
 	if isValidateHit == true and otherCharacter ~= nil then
-		local humanoid = otherCharacter:FindFirstAncestorOfClass("Humanoid")
-		humanoid:TakeDamage(10)
-		local otherPlayer = Players:GetPlayerFromCharacter(otherCharacter)
-		local _result = otherPlayer
-		if _result ~= nil then
-			_result:SetAttribute("StunnedState", true)
-		end
+		local humanoid = otherCharacter:FindFirstChildOfClass("Humanoid")
+		-- const otherPlayer = Players.GetPlayerFromCharacter(otherCharacter) as Player;
+		otherCharacter:SetAttribute("StunnedState", true)
 		task.delay(2.7, function()
-			local _result_1 = otherPlayer
-			if _result_1 ~= nil then
-				_result_1:SetAttribute("StunnedState", false)
-			end
+			otherCharacter:SetAttribute("StunnedState", false)
 		end)
+		humanoid:TakeDamage(10)
 		local health = math.max(humanoid.Health, 0)
 		if health <= 0 then
 			-- player, get point at "kills" of leaderstats
@@ -57,22 +51,25 @@ local function tryDamageOtherPlayer(player, liveState, character)
 	print(`error if checking`)
 	return nil
 end
-local function setupNewPlayer(player)
-	if player.Parent == Players then
-		player:SetAttribute("StunnedState", false)
-		print(`StunnedState initialize for [{player.Name}]`)
-		-- here need gets value for player-damage, class(maybe i create ability and ultimate)
-		-- from profile 
-	end
+local function setupNewPlayer(player, character)
+	character:SetAttribute("StunnedState", false)
+	print(`StunnedState initialize for [{player.Name}]`)
+	-- here need gets value for player-damage, class(maybe i create ability and ultimate)
+	-- from profile 
 end
+-- Setup new player
 Players.PlayerAdded:Connect(function(player)
-	-- Setup new player
-	setupNewPlayer(player)
+	player.CharacterAdded:Connect(function(character)
+		setupNewPlayer(player, character)
+	end)
 end)
 punchEvent.OnServerEvent:Connect(function(player, params)
 	local validateHitParam = params
+	print(validateHitParam)
 	if validateHitParam.isHitValid == true then
+		print(`Validate === true damnnnnnnnnnn`)
 		tryDamageOtherPlayer(player, validateHitParam.liveState, validateHitParam.character)
+		notificationPlayers(validateHitParam.character)
 	else
 		notificationPlayers(validateHitParam.character)
 	end

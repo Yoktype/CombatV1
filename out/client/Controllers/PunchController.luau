@@ -13,13 +13,14 @@ local CHARACTER = LOCAL_PLAYER.Character or (LOCAL_PLAYER.CharacterAdded:Wait())
 local HUMANOID = CHARACTER:FindFirstChildOfClass("Humanoid")
 local ANIMATOR = HUMANOID:WaitForChild("Animator") or Instance.new("Animator")
 ANIMATOR.Parent = HUMANOID
-local PUCH_ANIMATION = "rbxassetid://13722448613"
+local PUCH_ANIMATION = "rbxassetid://"
 local liveState = true
 local function punch()
-	local animation = HUMANOID:FindFirstAncestorOfClass("Animation") or Instance.new("Animation")
-	animation.Parent = HUMANOID
-	animation.AnimationId = PUCH_ANIMATION
-	ANIMATOR:LoadAnimation(animation)
+	-- not worked w. random id =[
+	-- const animation = HUMANOID.FindFirstAncestorOfClass("Animation") || new Instance("Animation") as Animation;
+	-- animation.Parent = HUMANOID; // Create at local for player OMG
+	-- animation.AnimationId = PUCH_ANIMATION; // idk btw whats the animation here
+	-- ANIMATOR.LoadAnimation(animation)
 	local _binding = validateHit(LOCAL_PLAYER, CHARACTER, liveState)
 	local isHitValid = _binding[1]
 	local otherCharacter = _binding[2]
@@ -43,8 +44,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
 	if input.UserInputType ~= Enum.UserInputType.MouseButton1 then
 		return nil
 	end
-	-- fast check StunnedState on client
-	local stunnedState = LOCAL_PLAYER:GetAttribute("StunnedState")
+	local stunnedState = CHARACTER:GetAttribute("StunnedState")
 	print(`[{stunnedState}]: stunnedState on client`)
 	if stunnedState == false then
 		punch()

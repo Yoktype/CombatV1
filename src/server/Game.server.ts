@@ -7,6 +7,7 @@ const Events = ReplicatedStorage.WaitForChild("Events") as Folder;
 const punchEvent = Events.WaitForChild("PunchEvent") as RemoteEvent;
 const hitBoxRenderEvent = Events.WaitForChild("HitBoxRenderEvent") as RemoteEvent;
 
+const STUN_TIME = 1.5;
 const ATTACK_RANGE = 5;
 
 
@@ -36,11 +37,22 @@ function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Mod
     const [isValidateHit, otherCharacter] = validateHit(player, character, liveState);
     if ( isValidateHit === true && otherCharacter !== undefined ) {
         const humanoid = otherCharacter.FindFirstChildOfClass("Humanoid") as Humanoid;
-        const otherPlayer = Players.GetPlayerFromCharacter(otherCharacter) as Player;
-        otherPlayer.SetAttribute("StunnedState", true);
+        // const otherPlayer = Players.GetPlayerFromCharacter(otherCharacter) as Player;
         
-        task.delay(2.7, () => {
-            otherPlayer.SetAttribute("StunnedState", false);
+        // save character params
+        const walkSpeed = humanoid.WalkSpeed;
+        const jumpPower = humanoid.JumpPower;
+        
+        // stun
+        humanoid.WalkSpeed = 0;
+        humanoid.JumpPower = 0;
+        otherCharacter.SetAttribute("StunnedState", true);
+        
+        task.delay(STUN_TIME, () => {
+            // give back all
+            humanoid.WalkSpeed = walkSpeed;
+            humanoid.JumpPower = jumpPower;
+            otherCharacter.SetAttribute("StunnedState", false);
         })
         
         humanoid.TakeDamage(10);
@@ -50,29 +62,29 @@ function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Mod
             // change or create function in playerData where i will send 1 and it change value
         }
 
+        print(`[Attack]: true`);
         return
     }
 
-    print(`error if checking`)
+    print(`[Attack]: not validate`);
     return;
 }
 
-function setupNewPlayer(player: Player) {
-    if (player.Parent === Players) {
+function setupNewPlayer(player: Player, character: Model) {
 
-        player.SetAttribute("StunnedState", false); // init
-        print(`StunnedState initialize for [${player.Name}]`);
+    character.SetAttribute("StunnedState", false);
+    print(`StunnedState initialize for [${player.Name}]`);
 
-        // here need gets value for player-damage, class(maybe i create ability and ultimate)
-        // from profile 
-    }
-    print(`just delete your if`);
+    // here need gets value for player-damage, class(maybe i create ability and ultimate)
+    // from profile 
 }
 
 
 // Setup new player
 Players.PlayerAdded.Connect(player => {
-    setupNewPlayer(player);
+    player.CharacterAdded.Connect(character => {
+        setupNewPlayer(player, character);
+    })
 })
 
 punchEvent.OnServerEvent.Connect((player: Player, params) => {
