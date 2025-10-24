@@ -6,7 +6,7 @@ const hitBoxRenderEvent = Events.WaitForChild("HitBoxRenderEvent") as RemoteEven
 
 
 function destroyHitboxRender(render: BasePart): void {
-    const tweenInfo = new TweenInfo(2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, 0, false, 0)
+    const tweenInfo = new TweenInfo(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, 0, false, 0)
     const propertyTable = {
         Transparency: 1,
     }
@@ -25,11 +25,12 @@ function hitboxRendering(position: CFrame): void {
     render.Anchored = true;
     render.Size = new Vector3(4, 10, 4);
     render.Color = Color3.fromRGB(255, 0, 0);
+    render.Transparency = 0.45;
     render.Name = "HitboxRender";
     render.Parent = Workspace; // local player spawn only for player
     render.PivotTo(position);
 
-    task.delay(3, () => {
+    task.delay(1.5, () => {
         destroyHitboxRender(render); // instand start delete
     })
 }

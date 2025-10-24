@@ -31,13 +31,16 @@ function getPossitionRender(character: Model): CFrame | undefined {
 }
 
 function notificationPlayers(character: Model) {
-    // i want spawned 3-renders waits(.3)
-    // maybe i do it
-    // let i: number = 0
-    // for (i; i < 3; i += 1) {}
 
-    const renderPosition = getPossitionRender(character) || new CFrame();
-    if (renderPosition !== undefined) hitBoxRenderEvent.FireAllClients(renderPosition);
+    let i: number = 0
+    for (i; i < 3; i += 1) {
+
+        const renderPosition = getPossitionRender(character) || new CFrame();
+        if (renderPosition !== undefined) hitBoxRenderEvent.FireAllClients(renderPosition);
+
+        task.wait(.15)
+    }
+
 }
 
 function tryDamageOtherPlayer(player: Player, liveState: boolean, character: Model): void {
