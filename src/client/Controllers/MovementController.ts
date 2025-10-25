@@ -33,7 +33,19 @@ function getHumanoidRootPart(): BasePart | undefined {
     return character?.FindFirstChild("HumanoidRootPart") as BasePart;
 }
 
-function getDirection(): Vector3 {
+function getDirection(button: string): Vector3 {
+    const character = getCharacter();
+    const humanoid = getHumanoid();
+    const humanoidRootPart = getHumanoidRootPart();
+
+    if (character && humanoidRootPart) {
+
+        // maybe use a humanoid MoveDirection
+        // nah i will use IsKeyDown and use switch case case case
+        // or will use  Map.find(KeyCode) - where KeyCode the key and function return or do
+
+        return new Vector3(0, 0, 0);
+    }
 
     return new Vector3(0, 0, 0);
 }
@@ -41,18 +53,28 @@ function getDirection(): Vector3 {
 function playAnimation(): void {
     const humanoid = getHumanoid();
     const animator = humanoid?.FindFirstChildOfClass("Animator") as Animator;
-
     if (dashAnimation) animator.LoadAnimation(dashAnimation);
-
 }
 
+function dash() {}
 
-function dash(_: string, state: Enum.UserInputState, inputObject: InputObject) {
+function dashBind(_: string, state: Enum.UserInputState, inputObject: InputObject) {
     // I want check first how to work a LenearVelocity by humanoidrootpart
 
+    // here i will bind Q WHILE state = begin and unbind when state = false
+    ContextActionService.BindAction("Dash", dash, false, Enum.KeyCode.Q)
+
+    task.spawn(() => {
+        while(state === Enum.UserInputState.Begin) { // if not work, use UserInputService.IsKeyDown(Enum.KeyCode.LeftShift)
+            print(`[Dash]: has bind`)
+        }
+        // while state change player has unbind
+        // how to work state :P
+        ContextActionService.UnbindAction("Dash")
+    })
 
 }
 
 
-ContextActionService.BindAction("Dash", dash, true, Enum.KeyCode.LeftShift);
+ContextActionService.BindAction("dashBind", dashBind, true, Enum.KeyCode.LeftShift);
 // create button on phone
