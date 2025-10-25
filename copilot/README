@@ -1,0 +1,27 @@
+Dash System (roblox-ts)
+
+Setup:
+1. Create a RemoteEvent in ReplicatedStorage named "DashEvent" (the server code will create it if missing).
+2. Put the config module (shared/config.ts) into your project so both client and server can import it, or create a ModuleScript in ReplicatedStorage/ServerScriptService with the same exported table.
+3. Place client compiled script into StarterPlayerScripts (LocalScript).
+4. Place server compiled script into ServerScriptService (Script).
+5. Provide an Animation asset and set config.animationId or store an Animation instance in ReplicatedStorage named "DashAnimation".
+
+How it works:
+- The client detects the dash input (LeftShift example), plays a local animation for responsiveness, and fires a RemoteEvent to the server with direction/speed/duration.
+- The server validates and clamps these values, checks a cooldown per-player, and applies a short velocity change to the character's HumanoidRootPart using AssemblyLinearVelocity. After dashDuration, server attempts to restore previous velocity.
+
+Security:
+- Movement is applied server-side (authoritative), so clients cannot unilaterally set arbitrary speeds or spam dashes.
+- Server clamps max speed/duration and enforces cooldown.
+- You can expand server-side checks (e.g., ensure player is alive, not already in another movement state, not swimming) depending on your game.
+
+Tuning:
+- config.dashSpeed, dashDuration, cooldown can be adjusted.
+- For smoother feeling, you can also apply a small client-side velocity prediction, but always rely on server to correct and enforce rules.
+
+Further enhancements:
+- Add stamina or dash charges
+- Add double-tap-to-dash (client-side input detection)
+- Add visual effects and sound
+- Improve interpolation instead of instantly setting AssemblyLinearVelocity (for smoother physics)
