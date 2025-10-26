@@ -1,21 +1,26 @@
 import { Workspace } from "@rbxts/services";
 
+// function getLocalRenders() {
+//     const folder = Workspace.FindFirstChild("localRenders");
+//     const voidFolder: Instance[] = [];
+//     return folder?.GetChildren() ?? voidFolder;
+// }
 
 export function validateHit(player: Player, character: Model, liveState: boolean): [boolean, Model?] {
 
     if (liveState) {
         
-        const characterTorso = (character.FindFirstChild("UpperTorso") || character.FindFirstChild("Torso")) as BasePart;
+        const humanoidRootPart = character.FindFirstChild("HumanoidRootPart") as BasePart;
         const direction = (character.GetPivot().LookVector).mul(10);
 
         // const radius = 4;
 
         const raycastParams = new RaycastParams();
-        raycastParams.FilterDescendantsInstances = [character];
+        raycastParams.FilterDescendantsInstances = [ character ];
         raycastParams.FilterType = Enum.RaycastFilterType.Exclude; // Exclude - Blacklist, Include - Whitelist
 
         const raycastResult = Workspace.Shapecast(
-            characterTorso,
+            humanoidRootPart,
             // radius, // in roblox-ts Shapecast don't take radius =[
             direction,
             raycastParams

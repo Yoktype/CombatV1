@@ -44,6 +44,12 @@ function getDirection(button: string): Vector3 {
         // nah i will use IsKeyDown and use switch case case case
         // or will use  Map.find(KeyCode) - where KeyCode the key and function return or do
 
+
+
+        // HERE i check ISKEY DOWN AND use a switch
+
+
+
         return new Vector3(0, 0, 0);
     }
 

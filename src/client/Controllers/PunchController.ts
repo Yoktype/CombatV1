@@ -22,11 +22,12 @@ function punch(): void {
     // animation.AnimationId = PUCH_ANIMATION; // idk btw whats the animation here
     // ANIMATOR.LoadAnimation(animation)
 
-    const [isHitValid, otherCharacter] = validateHit(LOCAL_PLAYER, CHARACTER, liveState);
+    // const [isHitValid, otherCharacter] = validateHit(LOCAL_PLAYER, CHARACTER, liveState);
+    // no need :P
 
     // type from declarated file: [fileName.d.ts]
     const validateHitParam: IValidateHit = {
-        isHitValid: isHitValid,
+        isHitValid: true,
         liveState: liveState,
         character: CHARACTER
     }

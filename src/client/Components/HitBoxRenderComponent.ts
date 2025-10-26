@@ -35,7 +35,6 @@ function hitboxRendering(position: CFrame): void {
     })
 }
 
-
 hitBoxRenderEvent.OnClientEvent.Connect((args) => {
     const renderParams = args as CFrame;
 
