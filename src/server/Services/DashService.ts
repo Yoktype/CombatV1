@@ -6,10 +6,10 @@ const dashEvent = Events.FindFirstChild("DashEvent") as RemoteEvent;
 
 
 const directions = new Map<string, Vector3>();
-directions.set("W", new Vector3(0, 0, 0));
-directions.set("A", new Vector3(0, 0, 0));
-directions.set("S", new Vector3(0, 0, 0));
-directions.set("D", new Vector3(0, 0, 0));
+directions.set("W", new Vector3(0, 0, -1));
+directions.set("A", new Vector3(-1, 0, 0));
+directions.set("S", new Vector3(0, 0, 1));
+directions.set("D", new Vector3(1, 0, 0));
 
 const playersCooldowns = new Map<Player, number>();
 

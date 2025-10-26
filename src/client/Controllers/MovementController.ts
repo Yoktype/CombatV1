@@ -29,43 +29,20 @@ function getHumanoid(): Humanoid | undefined {
     return character?.FindFirstChildOfClass("Humanoid");
 }
 
-function getHumanoidRootPart(): BasePart | undefined {
-    const character = getCharacter();
-    return character?.FindFirstChild("HumanoidRootPart") as BasePart;
-}
-
-function getDirection(button: string): Vector3 {
-    const character = getCharacter();
-    const humanoid = getHumanoid();
-    const humanoidRootPart = getHumanoidRootPart();
-
-    if (character && humanoidRootPart) {
-
-        // maybe use a humanoid MoveDirection
-        // nah i will use IsKeyDown and use switch case case case
-        // or will use  Map.find(KeyCode) - where KeyCode the key and function return or do
-
-
-
-        // HERE i check ISKEY DOWN AND use a switch
-
-
-
-        return new Vector3(0, 0, 0);
-    }
-
-    return new Vector3(0, 0, 0);
-}
+// function getHumanoidRootPart(): BasePart | undefined {
+//     const character = getCharacter();
+//     return character?.FindFirstChild("HumanoidRootPart") as BasePart;
+// }
 
 function stopAnimation(animationTrack: AnimationTrack): void {
     if (!animationTrack) return;
     animationTrack.Stop();
 }
 
-function startAndGetAnimation(): AnimationTrack | undefined {
+function startAndGetAnimation() {
     const humanoid = getHumanoid();
     const animator = humanoid?.FindFirstChildOfClass("Animator") as Animator;
-    if (!dashAnimation) return
+    if (!dashAnimation) return; // if not need create new and set AnimationId
 
     const loadAnimation = animator.LoadAnimation(dashAnimation);
     loadAnimation.Play();
@@ -73,8 +50,6 @@ function startAndGetAnimation(): AnimationTrack | undefined {
     task.wait(config.duration);
 
     stopAnimation(loadAnimation);
-
-    return loadAnimation
 }
 
 function dash(): void {
@@ -85,18 +60,22 @@ function dash(): void {
 
     if (isDownW !== false) { 
         dashEvent.FireServer("W");
+        startAndGetAnimation();
         return;
     }
     if (isDownA !== false) {
         dashEvent.FireServer("A");
+        startAndGetAnimation();
         return;
     }
     if (isDownS !== false) {
         dashEvent.FireServer("S");
+        startAndGetAnimation();
         return;
     }
     if (isDownD !== false) {
         dashEvent.FireServer("D");
+        startAndGetAnimation();
         return;
     }
 }
