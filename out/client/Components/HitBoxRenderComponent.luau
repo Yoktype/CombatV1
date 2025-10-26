@@ -7,7 +7,7 @@ local Workspace = _services.Workspace
 local Events = ReplicatedStorage:WaitForChild("Events")
 local hitBoxRenderEvent = Events:WaitForChild("HitBoxRenderEvent")
 local function destroyHitboxRender(render)
-	local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, 0, false, 0)
+	local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, 0, false, 0)
 	local propertyTable = {
 		Transparency = 1,
 	}
@@ -17,23 +17,24 @@ local function destroyHitboxRender(render)
 		render:Destroy()
 	end)
 end
-local function spawnHitboxRender(position)
+local function hitboxRendering(position)
 	local render = Instance.new("Part")
+	render.CanCollide = false
+	render.Anchored = true
+	render.Size = Vector3.new(4, 10, 4)
+	render.Color = Color3.fromRGB(255, 0, 0)
+	render.Transparency = 0.45
 	render.Name = "HitboxRender"
 	render.Parent = Workspace
-	render.Size = Vector3.new(4, 10, 4)
-	render.Anchored = true
-	render.CanCollide = false
-	render.Color = Color3.fromRGB(255, 0, 0)
 	render:PivotTo(position)
-	task.delay(3, function()
+	task.delay(1.5, function()
 		destroyHitboxRender(render)
 	end)
 end
 hitBoxRenderEvent.OnClientEvent:Connect(function(args)
 	local renderParams = args
 	if renderParams ~= nil then
-		spawnHitboxRender(renderParams)
+		hitboxRendering(renderParams)
 	end
 end)
 return nil

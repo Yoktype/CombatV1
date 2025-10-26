@@ -1,15 +1,20 @@
 -- Compiled with roblox-ts v3.0.0
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local Workspace = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").Workspace
+-- function getLocalRenders() {
+--     const folder = Workspace.FindFirstChild("localRenders");
+--     const voidFolder: Instance[] = [];
+--     return folder?.GetChildren() ?? voidFolder;
+-- }
 local function validateHit(player, character, liveState)
 	if liveState then
-		local characterTorso = (character:FindFirstChild("UpperTorso") or character:FindFirstChild("Torso"))
+		local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
 		local direction = (character:GetPivot().LookVector) * 10
 		-- const radius = 4;
 		local raycastParams = RaycastParams.new()
 		raycastParams.FilterDescendantsInstances = { character }
 		raycastParams.FilterType = Enum.RaycastFilterType.Exclude
-		local raycastResult = Workspace:Shapecast(characterTorso, direction, raycastParams)
+		local raycastResult = Workspace:Shapecast(humanoidRootPart, direction, raycastParams)
 		if raycastResult and raycastResult.Instance then
 			local hitPart = raycastResult.Instance
 			local hitOtherCharacter = hitPart.Parent
@@ -19,15 +24,8 @@ local function validateHit(player, character, liveState)
 				return { true, hitOtherCharacter }
 			end
 		end
-		local _result = raycastResult
-		if _result ~= nil then
-			_result = _result.Instance
-		end
-		print(`[{_result}], ray result instance`)
-		print(`[Attack]: No hit detected`)
 		return { false }
 	end
-	print(`[{player.Name}]: Has died, can't attack`)
 	return { false }
 end
 --[[

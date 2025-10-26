@@ -1,4 +1,7 @@
 -- Compiled with roblox-ts v3.0.0
+-- interface InitModule {
+--     onStart: () => {}
+-- }
 local function intialize(folder)
 	for idx, Vmodule in pairs(folder:GetChildren()) do
 		local module = Vmodule

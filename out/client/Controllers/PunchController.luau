@@ -4,7 +4,6 @@ local _services = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts
 local Players = _services.Players
 local ReplicatedStorage = _services.ReplicatedStorage
 local UserInputService = _services.UserInputService
-local validateHit = TS.import(script, game:GetService("ReplicatedStorage"), "Utils", "validateHit").validateHit
 local Events = ReplicatedStorage:WaitForChild("Events")
 local punchEvent = Events:WaitForChild("PunchEvent")
 -- maybe create module for constants, this is based constants
@@ -21,12 +20,11 @@ local function punch()
 	-- animation.Parent = HUMANOID; // Create at local for player OMG
 	-- animation.AnimationId = PUCH_ANIMATION; // idk btw whats the animation here
 	-- ANIMATOR.LoadAnimation(animation)
-	local _binding = validateHit(LOCAL_PLAYER, CHARACTER, liveState)
-	local isHitValid = _binding[1]
-	local otherCharacter = _binding[2]
+	-- const [isHitValid, otherCharacter] = validateHit(LOCAL_PLAYER, CHARACTER, liveState);
+	-- no need :P
 	-- type from declarated file: [fileName.d.ts]
 	local validateHitParam = {
-		isHitValid = isHitValid,
+		isHitValid = true,
 		liveState = liveState,
 		character = CHARACTER,
 	}
@@ -45,7 +43,6 @@ UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
 		return nil
 	end
 	local stunnedState = CHARACTER:GetAttribute("StunnedState")
-	print(`[{stunnedState}]: stunnedState on client`)
 	if stunnedState == false then
 		punch()
 	end
