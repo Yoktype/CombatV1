@@ -1,6 +1,5 @@
 export = {
     cooldown: 1.5,
-    velocity: 120,
-    
+    velocity: 200,
     duration: .3,
 }
