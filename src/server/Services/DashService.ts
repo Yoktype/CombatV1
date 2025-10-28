@@ -18,24 +18,30 @@ function dash(player: Player, direction: Vector3): void {
     const dashDuration: number = config.duration;
     const velocity: number = config.velocity;
     const dashVelocity = direction.mul(velocity);
-
+    
     const character: Model = player.Character ?? player.CharacterAdded.Wait()[0];
     const humanoidRootPart = character.FindFirstChild("HumanoidRootPart") as BasePart;
 
-    const startVelocity = humanoidRootPart.AssemblyLinearVelocity;
+    humanoidRootPart.SetNetworkOwner(undefined); // try SetNetworkOwner
 
+    const startVelocity = humanoidRootPart.AssemblyLinearVelocity;
+    
     humanoidRootPart.AssemblyLinearVelocity = dashVelocity;
+    // ???????? why i cant change
+    print(humanoidRootPart.AssemblyLinearVelocity)
 
     task.wait(dashDuration);
 
-    humanoidRootPart.AssemblyLinearVelocity = startVelocity; // maybe change to vector.zero
+    humanoidRootPart.AssemblyLinearVelocity = startVelocity;
+    humanoidRootPart.SetNetworkOwner(player);
 
 }
 
 
 dashEvent.OnServerEvent.Connect((player: Player, args) => {
+    print(args)
     const param = args as string;
-    if(!args || args === undefined) return;
+    if(args === undefined) return;
 
     const time = os.time();
     const cooldown = playersCooldowns.has(player);
@@ -44,7 +50,9 @@ dashEvent.OnServerEvent.Connect((player: Player, args) => {
     } else {
         const playerCooldown = playersCooldowns.get(player) as number;
         const lastDash = time - playerCooldown;
+
         if (lastDash < config.cooldown) return;
+
         playersCooldowns.set(player, time);
     }
 

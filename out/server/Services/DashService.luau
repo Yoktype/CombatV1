@@ -20,14 +20,19 @@ local function dash(player, direction)
 	local dashVelocity = direction * velocity
 	local character = player.Character or (player.CharacterAdded:Wait())
 	local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+	humanoidRootPart:SetNetworkOwner(nil)
 	local startVelocity = humanoidRootPart.AssemblyLinearVelocity
 	humanoidRootPart.AssemblyLinearVelocity = dashVelocity
+	-- ???????? why i cant change
+	print(humanoidRootPart.AssemblyLinearVelocity)
 	task.wait(dashDuration)
 	humanoidRootPart.AssemblyLinearVelocity = startVelocity
+	humanoidRootPart:SetNetworkOwner(player)
 end
 dashEvent.OnServerEvent:Connect(function(player, args)
+	print(args)
 	local param = args
-	if not (args ~= 0 and args == args and args ~= "" and args) or args == nil then
+	if args == nil then
 		return nil
 	end
 	local time = os.time()

@@ -1,6 +1,6 @@
 export = {
     cooldown: 1.5,
-    velocity: 120, // if i want to use a LinearVelocity 
+    velocity: 120,
     
-    duration: 1,
+    duration: .3,
 }

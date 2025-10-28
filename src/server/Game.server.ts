@@ -2,6 +2,7 @@ import { ServerScriptService, ReplicatedStorage, Players } from "@rbxts/services
 import { validateHit } from "shared/Utils/validateHit";
 
 const PlayerModule = require(ServerScriptService.FindFirstChild("Player") as ModuleScript);
+const DashService = require(ServerScriptService.WaitForChild("Services")?.FindFirstChild("DashService") as ModuleScript)
 
 const Events = ReplicatedStorage.WaitForChild("Events") as Folder;
 const punchEvent = Events.WaitForChild("PunchEvent") as RemoteEvent;

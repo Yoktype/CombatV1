@@ -60,22 +60,22 @@ function dash(): void {
 
     if (isDownW !== false) { 
         dashEvent.FireServer("W");
-        startAndGetAnimation();
+        // startAndGetAnimation();
         return;
     }
     if (isDownA !== false) {
         dashEvent.FireServer("A");
-        startAndGetAnimation();
+        // startAndGetAnimation();
         return;
     }
     if (isDownS !== false) {
         dashEvent.FireServer("S");
-        startAndGetAnimation();
+        // startAndGetAnimation();
         return;
     }
     if (isDownD !== false) {
         dashEvent.FireServer("D");
-        startAndGetAnimation();
+        // startAndGetAnimation();
         return;
     }
 }
@@ -84,8 +84,9 @@ function dashBind(_: string, state: Enum.UserInputState, inputObject: InputObjec
     ContextActionService.BindAction("Dash", dash, false, Enum.KeyCode.Q)
 
     task.spawn(() => {
-        while(state === Enum.UserInputState.Begin) { // if not work, use UserInputService.IsKeyDown(Enum.KeyCode.LeftShift)
-            print(`[Dash]: has bind`)
+        while(UserInputService.IsKeyDown(Enum.KeyCode.LeftShift)) { // if not work, use UserInputService.IsKeyDown(Enum.KeyCode.LeftShift)
+            task.wait(.1);
+            print(`wait`);
         }
         ContextActionService.UnbindAction("Dash")
     })

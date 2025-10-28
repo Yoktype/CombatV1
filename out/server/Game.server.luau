@@ -6,6 +6,11 @@ local ReplicatedStorage = _services.ReplicatedStorage
 local Players = _services.Players
 local validateHit = TS.import(script, game:GetService("ReplicatedStorage"), "Utils", "validateHit").validateHit
 local PlayerModule = require(ServerScriptService:FindFirstChild("Player"))
+local _result = ServerScriptService:WaitForChild("Services")
+if _result ~= nil then
+	_result = _result:FindFirstChild("DashService")
+end
+local DashService = require(_result)
 local Events = ReplicatedStorage:WaitForChild("Events")
 local punchEvent = Events:WaitForChild("PunchEvent")
 local hitBoxRenderEvent = Events:WaitForChild("HitBoxRenderEvent")

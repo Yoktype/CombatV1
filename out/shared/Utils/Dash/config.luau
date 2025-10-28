@@ -2,5 +2,5 @@
 return {
 	cooldown = 1.5,
 	velocity = 120,
-	duration = 1,
+	duration = .3,
 }

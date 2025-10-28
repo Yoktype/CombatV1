@@ -69,30 +69,31 @@ local function dash()
 	local isDownD = UserInputService:IsKeyDown(Enum.KeyCode.D)
 	if isDownW ~= false then
 		dashEvent:FireServer("W")
-		startAndGetAnimation()
+		-- startAndGetAnimation();
 		return nil
 	end
 	if isDownA ~= false then
 		dashEvent:FireServer("A")
-		startAndGetAnimation()
+		-- startAndGetAnimation();
 		return nil
 	end
 	if isDownS ~= false then
 		dashEvent:FireServer("S")
-		startAndGetAnimation()
+		-- startAndGetAnimation();
 		return nil
 	end
 	if isDownD ~= false then
 		dashEvent:FireServer("D")
-		startAndGetAnimation()
+		-- startAndGetAnimation();
 		return nil
 	end
 end
 local function dashBind(_, state, inputObject)
 	ContextActionService:BindAction("Dash", dash, false, Enum.KeyCode.Q)
 	task.spawn(function()
-		while state == Enum.UserInputState.Begin do
-			print(`[Dash]: has bind`)
+		while UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) do
+			task.wait(.1)
+			print(`wait`)
 		end
 		ContextActionService:UnbindAction("Dash")
 	end)
